@@ -7,6 +7,15 @@
 
 #import "SceneDelegate.h"
 #import "AppDelegate.h"
+#import "initialTabBar.h"
+#import "ViewController.h"
+#import "coursesController.h"
+#import "dataManager.h"
+#import "objectController.h"
+#import "teacherController.h"
+
+
+
 
 @interface SceneDelegate ()
 
@@ -16,9 +25,64 @@
 
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
-    // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-    // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-    // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+    
+    UITabBarItem* personItem = [[UITabBarItem alloc] init];
+      
+    personItem.image = [[UIImage imageNamed:@"person"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    ViewController* usersController = [[ViewController alloc] init];
+    usersController.tabBarItem = personItem;
+    personItem.title = @"Users";
+    [personItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} forState:(UIControlStateNormal)];
+    [personItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor purpleColor]} forState:(UIControlStateSelected)];
+    
+    UINavigationController* navigationForUsers = [[UINavigationController alloc] initWithRootViewController:usersController];
+    
+    
+    coursesController* coursesVc = [[coursesController alloc] init];
+    
+    UITabBarItem* coursesBarItem = [[UITabBarItem alloc] init];
+    
+    coursesBarItem.image = [[UIImage imageNamed:@"courses"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
+    coursesBarItem.title = @"Courses";
+    [coursesBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName :[UIColor blackColor]} forState:(UIControlStateNormal)];
+    [coursesBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName :[UIColor purpleColor]} forState:(UIControlStateSelected)];
+    
+    coursesVc.tabBarItem = coursesBarItem;
+    
+    UINavigationController* navigationForCourses = [[UINavigationController alloc] initWithRootViewController:coursesVc];
+    
+    
+    objectController* objectVc = [[objectController alloc] init];
+    
+    UITabBarItem* objectBarItem = [[UITabBarItem alloc] init];
+    
+    objectBarItem.image = [[UIImage imageNamed:@"object"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
+    objectBarItem.title = @"Objects";
+    [objectBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName :[UIColor blackColor]} forState:(UIControlStateNormal)];
+    [objectBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName :[UIColor purpleColor]} forState:(UIControlStateSelected)];
+    objectVc.tabBarItem = objectBarItem;
+    
+    UINavigationController* navigationForObjects = [[UINavigationController alloc] initWithRootViewController:objectVc];
+    
+    
+    teacherController* teacherVc = [[teacherController alloc] init];
+    
+    UITabBarItem* teacherBarItem = [[UITabBarItem alloc] init];
+    
+    teacherBarItem.image = [[UIImage imageNamed:@"teacher"] imageWithRenderingMode:(UIImageRenderingModeAlwaysOriginal)];
+    teacherBarItem.title = @"Objects";
+    [teacherBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName :[UIColor blackColor]} forState:(UIControlStateNormal)];
+    [teacherBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName :[UIColor purpleColor]} forState:(UIControlStateSelected)];
+    teacherVc.tabBarItem = teacherBarItem;
+    
+    UINavigationController* navigationForTeacher = [[UINavigationController alloc] initWithRootViewController:teacherVc];
+    
+    initialTabBar* tabBar = [[initialTabBar alloc]init];
+    tabBar.viewControllers = @[navigationForUsers, navigationForCourses, navigationForObjects, navigationForTeacher];
+
+    
+    self.window.rootViewController = tabBar;
 }
 
 
@@ -54,7 +118,7 @@
     // to restore the scene back to its current state.
 
     // Save changes in the application's managed object context when the application transitions to the background.
-    [(AppDelegate *)UIApplication.sharedApplication.delegate saveContext];
+    [[dataManagerClass sharedManager] saveContext];
 }
 
 
